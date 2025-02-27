@@ -1,0 +1,41 @@
+name: Deploy Spring Boot to Azure VM
+
+on:
+  push:
+    branches:
+      - main  # Trigger on main branch push
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Build JAR using Maven
+      run: mvn clean package -DskipTests
+
+    - name: Set up SSH Key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.AZURE_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.AZURE_VM_IP }} >> ~/.ssh/known_hosts
+
+    - name: Deploy JAR to Azure VM
+      run: |
+        scp target/*.jar ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }}:/home/ubuntu/myapp/app.jar
+
+    - name: Restart Spring Boot Application
+      run: |
+        ssh ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }} << 'EOF'
+        sudo systemctl restart myapp
+        sudo systemctl status myapp --no-pager
+        EOF
