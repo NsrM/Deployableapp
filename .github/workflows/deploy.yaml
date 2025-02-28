@@ -1,6 +1,5 @@
 name: Deploy Spring Boot to Azure VM
 
-
 on:
   push:
     branches:
