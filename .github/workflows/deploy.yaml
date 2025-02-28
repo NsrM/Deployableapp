@@ -38,7 +38,7 @@ jobs:
       run: |
         #ssh -tt ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }} << 'EOF'
         ssh -tt ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }} "pwd"
-        ssh -tt ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }} "systemctl daemon-reload"
+        #ssh -tt ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }} "systemctl daemon-reload"
         ssh -tt ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }} "sudo systemctl restart myapp"
         ssh -tt ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }} "sudo systemctl status myapp --no-pager"
         #EOF
