@@ -36,7 +36,7 @@ jobs:
 
     - name: Restart Spring Boot Application
       run: |
-        ssh -t ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }} << 'EOF'
+        ssh -tt ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }} << 'EOF'
         sudo systemctl restart myapp
         sudo systemctl status myapp --no-pager
         EOF
