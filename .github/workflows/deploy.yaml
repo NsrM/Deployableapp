@@ -32,7 +32,7 @@ jobs:
 
     - name: Deploy JAR to Azure VM
       run: |
-        scp target/*.jar ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }}:/home/ubuntu/myapp/app.jar
+        scp target/*.jar ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }}:/home/naseersemail/myapp/app.jar
 
     - name: Restart Spring Boot Application
       run: |
